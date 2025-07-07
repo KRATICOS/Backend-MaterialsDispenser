@@ -16,7 +16,7 @@ exports.registrarEquipoConImagenes = async (req, res) => {
         }
 
         const imagenes = files.map(file => ({
-            url: `http://localhost:3001/uploads/${file.filename}`
+            url: `https://backend-materialsdispenser-production.up.railway.app/uploads/${file.filename}`
         }));
 
         const nuevoEquipo = new Inventario({
