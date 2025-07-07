@@ -10,7 +10,7 @@ exports.subirArchivos = (req, res) => {
 
     const archivos = req.files.map(file => ({
         filename: file.filename,
-        url: `http://localhost:3001/uploads/${file}`
+        url: `https://backend-materialsdispenser-production.up.railway.app/uploads/${file}`
     }));
 
     res.json({
