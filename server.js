@@ -9,7 +9,7 @@ mongoose.connect(DB_URL)
   .then(() => {
     console.log('✅ Conectado a MongoDB');
     app.listen(PORT, () => {
-      console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+      console.log(`🚀 Servidor corriendo en https://backend-materialsdispenser-production.up.railway.app`);
     });
   })
   .catch((error) => {
