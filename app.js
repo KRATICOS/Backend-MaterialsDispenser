@@ -6,7 +6,12 @@ const bodyParser = require('body-parser');
 const app = express();
 
 app.use(cors({
-  origin: '*',
+origin: [
+    'capacitor://localhost',
+    'http://localhost',
+    'https://backend-materialsdispenser-production.up.railway.app',
+    'https://tu-frontend-pwa.web.app'
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
@@ -30,11 +35,6 @@ app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/items', itemsRoutes);
 app.use('/api/inventario', inventarioRoutes);
 app.use('/api/historial', historialRoutes);
-
-
-app.get('/', (req, res) => {
-  res.send('Backend funcionando 🎉');
-});
 
 
 module.exports = app;
