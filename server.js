@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const DB_URL = process.env.DB_URL;
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 mongoose.connect(DB_URL)
   .then(() => {
