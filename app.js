@@ -8,12 +8,12 @@ const app = express();
 app.use(cors({
   origin: function (origin, callback) {
     const allowedOrigins = [
-      'capacitor://localhost',
-      'http://localhost',
-      'http://localhost:8100',
-      'https://backend-materialsdispenser-production.up.railway.app',
-      'https://tu-frontend-pwa.web.app',
+      'capacitor://localhost',                              
+      'http://localhost',                                   
+      'http://localhost:8100',                                
+      'https://frontend-materials-dispenser.vercel.app'
     ];
+
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -23,6 +23,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
+
 
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
