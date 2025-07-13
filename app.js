@@ -6,16 +6,23 @@ const bodyParser = require('body-parser');
 const app = express();
 
 app.use(cors({
-origin: [
-    'capacitor://localhost',
-    'http://localhost',
-    'https://backend-materialsdispenser-production.up.railway.app',
-    'https://tu-frontend-pwa.web.app'
-  ],
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      'capacitor://localhost',
+      'http://localhost',
+      'http://localhost:8100',
+      'https://backend-materialsdispenser-production.up.railway.app',
+      'https://tu-frontend-pwa.web.app',
+    ];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
-
 
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
