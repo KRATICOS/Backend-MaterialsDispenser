@@ -64,16 +64,57 @@ exports.obtenerEquipoPorId = async (req, res) => {
 };
 
 
-exports.actualizarEquipo = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const equipoActualizado = await Inventario.findByIdAndUpdate(id, req.body, { new: true });
-        if (!equipoActualizado) return res.status(404).json({ message: 'Equipo no encontrado' });
-        res.status(200).json({ message: 'Equipo actualizado', equipo: equipoActualizado });
-    } catch (error) {
-        res.status(500).json({ message: 'Error al actualizar el equipo', error });
+
+exports.actualizarEquipoConImagenes = async (req, res) => {
+  try {
+    const equipoId = req.params.id;  
+    const { name, model, description, categoria, nseries, estado } = req.body;
+    const files = req.files || [];
+
+    const equipo = await Inventario.findById(equipoId);
+    if (!equipo) {
+      return res.status(404).json({ message: 'Equipo no encontrado' });
     }
+
+    if (nseries && nseries !== equipo.nseries) {
+      const existeSerie = await Inventario.findOne({ nseries });
+      if (existeSerie) {
+        return res.status(400).json({ message: 'Número de serie ya registrado en otro equipo' });
+      }
+    }
+
+    equipo.name = name ?? equipo.name;
+    equipo.model = model ?? equipo.model;
+    equipo.description = description ?? equipo.description;
+    equipo.categoria = categoria ?? equipo.categoria;
+    equipo.nseries = nseries ?? equipo.nseries;
+    equipo.estado = estado ?? equipo.estado;
+
+    if (files.length > 0) {
+      const nuevasImagenes = files.map(file => ({
+        url: `http://localhost:3001/uploads/${file.filename}`
+      }));
+      equipo.imagenes = equipo.imagenes.concat(nuevasImagenes);
+    }
+
+   
+    if (req.body.imagenesAEliminar && Array.isArray(req.body.imagenesAEliminar)) {
+      equipo.imagenes = equipo.imagenes.filter(img => !req.body.imagenesAEliminar.includes(img._id.toString()));
+    }
+
+    await equipo.save();
+
+    res.status(200).json({
+      message: 'Equipo actualizado correctamente',
+      equipo
+    });
+
+  } catch (error) {
+    console.error('Error al actualizar el equipo:', error);
+    res.status(500).json({ message: 'Error al actualizar el equipo', error });
+  }
 };
+
 
 exports.eliminarEquipo = async (req, res) => {
     try {
