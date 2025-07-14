@@ -12,7 +12,6 @@ app.use(cors({
       'http://localhost',                                   
       'http://localhost:8100',                                
       'https://frontend-materials-dispenser.vercel.app'
-
     ];
 
     if (!origin || allowedOrigins.includes(origin)) {
