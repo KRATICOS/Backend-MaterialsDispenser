@@ -7,7 +7,7 @@ router.post('/crear', upload.any(), inventarioController.registrarEquipoConImage
 
 router.get('/', inventarioController.obtenerEquipos);
 router.get('/:id', inventarioController.obtenerEquipoPorId);
-router.put('/:id', inventarioController.actualizarEquipo);
+router.put('/:id', upload.any(), inventarioController.actualizarEquipoConImagenes);
 router.delete('/:id', inventarioController.eliminarEquipo);
 
 router.put('/qr/:codigoQR', inventarioController.actualizarEstadoPorQR); 
