@@ -5,15 +5,16 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+const allowedOrigins = [
+  'capacitor://localhost',
+  'http://localhost',
+  'http://localhost:8100',
+  'https://frontend-materials-dispenser.vercel.app',
+  'https://frontend-md-ytjd.vercel.app' 
+];
+
 app.use(cors({
   origin: function (origin, callback) {
-    const allowedOrigins = [
-      'capacitor://localhost',                              
-      'http://localhost',                                   
-      'http://localhost:8100',                                
-      'https://frontend-materials-dispenser.vercel.app'
-    ];
-
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -24,12 +25,12 @@ app.use(cors({
   credentials: true
 }));
 
-
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Rutas
 const authRoutes = require('./app/routes/authRoutes');
 const usuarioRoutes = require('./app/routes/usuarioRoutes');
 const itemsRoutes = require('./app/routes/items');
@@ -43,6 +44,5 @@ app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/items', itemsRoutes);
 app.use('/api/inventario', inventarioRoutes);
 app.use('/api/historial', historialRoutes);
-
 
 module.exports = app;
