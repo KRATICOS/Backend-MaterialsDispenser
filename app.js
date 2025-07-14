@@ -11,7 +11,8 @@ app.use(cors({
       'capacitor://localhost',                              
       'http://localhost',                                   
       'http://localhost:8100',                                
-      'https://frontend-materials-dispenser-di9mhmwqc.vercel.app'
+      'https://frontend-materials-dispenser.vercel.app'
+
     ];
 
     if (!origin || allowedOrigins.includes(origin)) {
