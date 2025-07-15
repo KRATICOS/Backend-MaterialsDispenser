@@ -13,7 +13,7 @@ const allowedOrigins = [
   'https://frontend-md-ytjd.vercel.app' 
 ];
 
-app.use(cors({
+const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
@@ -21,16 +21,19 @@ app.use(cors({
       callback(new Error('No permitido por CORS'));
     }
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
   credentials: true
-}));
+};
+
+app.use(cors(corsOptions));
+
+app.options('*', cors(corsOptions));
 
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }));
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Rutas
 const authRoutes = require('./app/routes/authRoutes');
 const usuarioRoutes = require('./app/routes/usuarioRoutes');
 const itemsRoutes = require('./app/routes/items');
