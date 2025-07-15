@@ -12,7 +12,6 @@ const allowedOrigins = [
   'https://frontend-materials-dispenser.vercel.app',
   'https://frontend-md-ytjd.vercel.app' 
 ];
-
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -49,3 +48,4 @@ app.use('/api/inventario', inventarioRoutes);
 app.use('/api/historial', historialRoutes);
 
 module.exports = app;
+
